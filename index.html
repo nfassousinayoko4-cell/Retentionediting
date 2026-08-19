@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>N'fassou Sinayoko — Monteur &amp; Motion Designer</title>
+<meta name="description" content="Montage vidéo pour infopreneurs, entrepreneurs et créateurs de contenu. N'fassou Sinayoko transforme facecams, VSL, Reels et contenus éducatifs en vidéos plus nettes, plus rythmées et plus faciles à suivre.">
+
+<!--
+  ===================================================================
+  GUIDE RAPIDE POUR PERSONNALISER CETTE PAGE
+  ===================================================================
+  Chaque emplacement vidéo/photo (sections "Montage", "Étalonnage", "Reels"
+  et "Motion design") contient deux choses :
+    1. une div de classe "frame-empty" visible = le cadre vide que
+       vous voyez actuellement à l'écran ;
+    2. juste en dessous, un bloc HTML mis en commentaire, prêt à
+       l'emploi (balise video ou img).
+
+  Pour ajouter un fichier : créez un dossier "videos" et/ou "images" à
+  côté de index.html, déposez-y vos fichiers, puis pour chaque
+  emplacement à remplir :
+    a) supprimez la div "frame-empty"
+    b) retirez les marqueurs de commentaire qui entourent le bloc
+       video ou img juste en dessous, pour l'activer
+    c) vérifiez que le chemin "src" correspond bien au nom de votre fichier
+
+  Tant qu'aucun fichier n'est ajouté, les cadres vides s'affichent
+  élégamment à la place — la page reste donc présentable telle quelle.
+  ===================================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Sprite SVG : icônes réutilisées dans toute la page -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="icon-star" viewBox="0 0 24 24">
+      <polygon points="12 2.3 14.9 8.7 22 9.5 16.7 14.3 18.2 21.3 12 17.7 5.8 21.3 7.3 14.3 2 9.5 9.1 8.7"/>
+    </symbol>
+    <symbol id="icon-montage" viewBox="0 0 24 24">
+      <rect x="1.5" y="9.5" width="5.5" height="6" rx="1"/>
+      <rect x="8.5" y="9.5" width="9" height="6" rx="1"/>
+      <rect x="19" y="9.5" width="3.5" height="6" rx="1"/>
+      <line x1="8.5" y1="6.5" x2="8.5" y2="19.2"/>
+    </symbol>
+    <symbol id="icon-fusion" viewBox="0 0 24 24">
+      <circle cx="5" cy="6.2" r="2.4"/>
+      <circle cx="5" cy="17.8" r="2.4"/>
+      <circle cx="18" cy="12" r="2.8"/>
+      <line x1="7.1" y1="7.3" x2="15.4" y2="10.9"/>
+      <line x1="7.1" y1="16.7" x2="15.4" y2="13.1"/>
+    </symbol>
+    <symbol id="icon-color" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8.7"/>
+      <line x1="12" y1="2.7" x2="12" y2="6.2"/>
+      <line x1="12" y1="17.8" x2="12" y2="21.3"/>
+      <line x1="2.7" y1="12" x2="6.2" y2="12"/>
+      <line x1="17.8" y1="12" x2="21.3" y2="12"/>
+      <circle cx="14.8" cy="9.1" r="1.7" fill="currentColor" stroke="none"/>
+    </symbol>
+    <symbol id="icon-audio" viewBox="0 0 24 24">
+      <line x1="2" y1="9.5" x2="2" y2="14.5"/>
+      <line x1="6.4" y1="5.5" x2="6.4" y2="18.5"/>
+      <line x1="10.8" y1="2.5" x2="10.8" y2="21.5"/>
+      <line x1="15.2" y1="6.5" x2="15.2" y2="17.5"/>
+      <line x1="19.6" y1="9.5" x2="19.6" y2="14.5"/>
+    </symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24">
+      <polygon points="8 5.5 19 12 8 18.5" fill="currentColor" stroke="none"/>
+    </symbol>
+    <symbol id="icon-arrow-down" viewBox="0 0 24 24">
+      <line x1="12" y1="3" x2="12" y2="19"/>
+      <polyline points="6 13 12 19 18 13"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="orbs" aria-hidden="true">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
+</div>
+
+<!-- Cadre fixe façon viseur caméra : motif décoratif présent sur toute la page -->
+<div class="viewfinder" aria-hidden="true">
+  <span class="corner tl"></span>
+  <span class="corner tr"></span>
+  <span class="corner bl"></span>
+  <span class="corner br"></span>
+</div>
+
+<!-- Navigation façon scrubber de montage : un repère par section -->
+<nav class="scrubber" aria-label="Navigation entre les sections">
+  <div class="scrubber-track">
+    <div class="scrubber-playhead" id="playhead"></div>
+  </div>
+  <ol class="scrubber-list">
+    <li><a href="#cover" data-index="0"><span class="tc">00:00</span><span class="lbl">Couverture</span></a></li>
+    <li><a href="#obsession" data-index="1"><span class="tc">00:01</span><span class="lbl">Obsession</span></a></li>
+    <li><a href="#about" data-index="2"><span class="tc">00:02</span><span class="lbl">À propos</span></a></li>
+    <li><a href="#montage" data-index="3"><span class="tc">00:03</span><span class="lbl">Montage</span></a></li>
+    <li><a href="#etalonnage" data-index="4"><span class="tc">00:04</span><span class="lbl">Étalonnage</span></a></li>
+    <li><a href="#reels" data-index="5"><span class="tc">00:05</span><span class="lbl">Reels</span></a></li>
+    <li><a href="#motion" data-index="6"><span class="tc">00:06</span><span class="lbl">Motion design</span></a></li>
+    <li><a href="#contact" data-index="7"><span class="tc">00:07</span><span class="lbl">Contact</span></a></li>
+  </ol>
+</nav>
+
+<main id="top">
+
+  <!-- ============ 00:00 — COUVERTURE ============ -->
+  <section class="slide cover" id="cover">
+    <div class="cover-grain" aria-hidden="true"></div>
+    <div class="cover-top">
+      <span class="eyebrow">Monteur &amp; Motion&nbsp;Designer</span>
+      <span class="reel">REEL 2026</span>
+    </div>
+
+    <div class="cover-mid">
+      <p class="cover-tag">Montage vidéo pour infopreneurs, entrepreneurs &amp; créateurs de contenu</p>
+      <h1 class="hero-hook">Votre expertise ne manque pas de valeur<span class="accent-dot">.</span></h1>
+      <p class="cover-sub">Ne la laissez pas mourir dans un montage que personne ne termine.</p>
+      <p class="cover-desc">Je transforme vos facecams, VSL, Reels et contenus éducatifs en vidéos plus nettes, plus rythmées et plus faciles à suivre — avec un montage où chaque coupe, animation, couleur et son sert votre message.</p>
+      <p class="cover-services">Montage · Motion design · Étalonnage · Mixage audio</p>
+
+      <div class="cover-ctas">
+        <a class="btn btn-primary" href="#contact">Confier ma prochaine vidéo</a>
+        <a class="btn btn-secondary" href="#reels">Voir le Reel 2026</a>
+      </div>
+
+      <p class="status-badge"><span class="status-dot" aria-hidden="true"></span>Disponible pour de nouveaux projets</p>
+    </div>
+
+    <div class="cover-bottom">
+      <a class="contact-link" href="mailto:nfassousinayoko4@gmail.com">nfassousinayoko4@gmail.com</a>
+      <a class="scroll-hint" href="#obsession" aria-label="Défiler vers le bas">
+        <svg class="icon" aria-hidden="true"><use href="#icon-arrow-down"/></svg>
+      </a>
+      <a class="contact-link" href="https://wa.me/22393029405">+223 93 02 94 05</a>
+    </div>
+  </section>
+
+  <!-- ============ 00:01 — OBSESSION (approche / philosophie) ============ -->
+  <section class="slide obsession" id="obsession">
+    <p class="eyebrow"><span class="tc">00:01</span> — Obsession</p>
+    <p class="section-kicker">Une approche de Senior Editor</p>
+    <h2 class="display-md">L'obsession derrière chaque coupe</h2>
+
+    <div class="obsession-body">
+      <p class="lede">Je n'ai pas appris la rétention dans un tutoriel. Je l'ai disséquée, image après image.</p>
+
+      <p class="body-text">J'ai analysé des milliers de contenus à haute rétention : facecams, VSL, Reels, documentaires et formats éducatifs. Pas pour collectionner des effets. Pour comprendre ce moment précis où un spectateur décide, presque inconsciemment, de continuer… ou de partir.</p>
+
+      <p class="body-text">J'ai étudié :</p>
+      <ul class="manifesto-list">
+        <li>les ouvertures qui créent immédiatement une tension ;</li>
+        <li>les changements de rythme qui réveillent l'attention avant qu'elle chute ;</li>
+        <li>les silences qui renforcent une idée au lieu de ralentir la vidéo ;</li>
+        <li>les animations qui rendent le message plus clair sans voler la vedette ;</li>
+        <li>les transitions visuelles et sonores qui poussent naturellement vers la séquence suivante ;</li>
+        <li>la manière dont un bon montage prépare le CTA bien avant son apparition.</li>
+      </ul>
+
+      <blockquote class="compare-quote">
+        <p><span class="q-label">Un monteur ordinaire demande :</span>« Quel effet puis-je ajouter ici ? »</p>
+        <p><span class="q-label accent">Un Senior Editor demande :</span>« Que doit ressentir, comprendre et vouloir faire le spectateur dans les trois prochaines secondes ? »</p>
+      </blockquote>
+
+      <p class="body-text">C'est cette question qui dirige chaque décision. Je ne monte pas autour d'un logiciel — je monte autour de l'attention humaine.</p>
+
+      <p class="body-text">Je peux reprendre une coupe que personne ne remarquera consciemment. Rééquilibrer un silence. Retarder une animation de quelques images. Retirer un effet pourtant « joli » parce qu'il affaiblit le message.</p>
+
+      <p class="body-text"><strong>Pourquoi cette obsession ?</strong> Parce qu'une vidéo ne perd pas son audience d'un seul coup. Elle la perd à travers une succession de petites décisions paresseuses que la majorité des monteurs ne voient même pas. Mon travail consiste à les traquer, puis à construire une vidéo dans laquelle le rythme, l'image, le son et le mouvement travaillent ensemble pour défendre votre message jusqu'à la dernière seconde.</p>
+
+      <p class="pull-quote">Votre audience ne saura peut-être jamais pourquoi elle est restée.<br>Elle sera simplement restée.</p>
+    </div>
+
+    <a class="btn btn-secondary section-cta" href="#montage">Voir cette obsession dans mes projets</a>
+  </section>
+
+  <!-- ============ 00:02 — À PROPOS + COMPÉTENCES ============ -->
+  <section class="slide about" id="about">
+    <p class="eyebrow"><span class="tc">00:02</span> — À propos</p>
+
+    <div class="about-grid">
+      <div class="about-intro">
+        <h2 class="display-md">Je ne remplis pas une timeline.<br>Je structure l'attention.</h2>
+        <p class="body-text">
+          Je suis N'fassou Sinayoko, monteur et motion designer spécialisé dans les
+          contenus facecam, documentaires, éducatifs et liés à l'infopreneuriat. Je
+          ne cherche pas à empiler des effets pour prouver que je sais monter : une
+          excellente idée peut perdre toute sa force à l'écran — une hésitation
+          conservée trop longtemps, une séquence qui traîne, une animation qui
+          distrait, une image incohérente, un son qui fatigue — et l'internaute part
+          avant d'avoir compris pourquoi il devait continuer.
+        </p>
+        <p class="body-text">
+          Je cherche le moment où l'attention baisse. L'idée qui mérite d'être
+          soulignée. La coupe qui redonne de l'énergie. Le silence qui doit
+          respirer. L'animation qui rend enfin l'explication limpide. Le résultat
+          recherché : une vidéo plus claire, plus maîtrisée, impossible à confondre
+          avec un assemblage amateur.
+        </p>
+      </div>
+
+      <div class="about-skills">
+        <h3 class="display-sm">DaVinci Resolve</h3>
+        <p class="skills-caption">Mon niveau, espace de travail par espace de travail</p>
+
+        <ul class="skill-list">
+          <li class="skill-row">
+            <svg class="skill-icon" aria-hidden="true"><use href="#icon-montage"/></svg>
+            <div class="skill-info">
+              <div class="skill-head">
+                <span class="skill-name">Montage</span>
+                <span class="stars" style="--rating:60%" role="img" aria-label="3 étoiles sur 5">
+                  <span class="stars-bg">
+                    <svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg>
+                  </span>
+                  <span class="stars-fg">
+                    <svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg>
+                  </span>
+                </span>
+              </div>
+              <p class="skill-note">Couper le gras, protéger le message : structuration des rushes et rythmage des contenus parlés.</p>
+            </div>
+          </li>
+
+          <li class="skill-row">
+            <svg class="skill-icon" aria-hidden="true"><use href="#icon-fusion"/></svg>
+            <div class="skill-info">
+              <div class="skill-head">
+                <span class="skill-name">Fusion</span>
+                <span class="stars" style="--rating:70%" role="img" aria-label="3,5 étoiles sur 5">
+                  <span class="stars-bg">
+                    <svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg>
+                  </span>
+                  <span class="stars-fg">
+                    <svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg>
+                  </span>
+                </span>
+              </div>
+              <p class="skill-note">Animations, incrustations et habillages qui guident le regard vers l'essentiel.</p>
+            </div>
+          </li>
+
+          <li class="skill-row">
+            <svg class="skill-icon" aria-hidden="true"><use href="#icon-color"/></svg>
+            <div class="skill-info">
+              <div class="skill-head">
+                <span class="skill-name">Étalonnage</span>
+                <span class="stars" style="--rating:60%" role="img" aria-label="3 étoiles sur 5">
+                  <span class="stars-bg">
+                    <svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg>
+                  </span>
+                  <span class="stars-fg">
+                    <svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg>
+                  </span>
+                </span>
+              </div>
+              <p class="skill-note">Correction des couleurs et ambiance cohérente pour que chaque plan appartienne au même univers.</p>
+            </div>
+          </li>
+
+          <li class="skill-row">
+            <svg class="skill-icon" aria-hidden="true"><use href="#icon-audio"/></svg>
+            <div class="skill-info">
+              <div class="skill-head">
+                <span class="skill-name">Fairlight</span>
+                <span class="stars" style="--rating:50%" role="img" aria-label="2,5 étoiles sur 5">
+                  <span class="stars-bg">
+                    <svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg>
+                  </span>
+                  <span class="stars-fg">
+                    <svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg><svg class="icon-star"><use href="#icon-star"/></svg>
+                  </span>
+                </span>
+              </div>
+              <p class="skill-note">Nettoyage et équilibrage audio pour une voix claire, présente et sans distraction.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 00:03 — MONTAGE (espace vidéos) ============ -->
+  <section class="slide" id="montage">
+    <p class="eyebrow"><span class="tc">00:03</span> — Montage</p>
+    <h2 class="display-md">Ne me croyez pas sur parole.</h2>
+    <p class="lede small">Regardez ce que le rythme change.</p>
+    <p class="body-text">Un bon montage ne se remarque pas seulement par ses effets. Il se ressent lorsque la vidéo avance sans effort, que chaque phrase arrive au bon moment, que l'œil reste occupé sans être agressé et que le message respire sans devenir lent.</p>
+
+    <div class="showcase-grid two">
+      <figure class="frame">
+        <div class="frame-box">
+          <iframe class="frame-media" src="https://www.youtube.com/embed/DFuKt4UrKDc" title="Projet 01" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <figcaption>
+          <span class="cap-title">Projet 01 — Vidéo réaction de type vlog</span>
+          <span class="cap-note">Préserver la spontanéité, retirer les temps morts et maintenir l'énergie naturelle de la réaction.</span>
+        </figcaption>
+      </figure>
+
+      <figure class="frame">
+        <div class="frame-box">
+          <iframe class="frame-media" src="https://www.youtube.com/embed/vd8nBn_h2lY" title="Projet 02" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <figcaption>
+          <span class="cap-title">Projet 02 — Facecam dynamique</span>
+          <span class="cap-note">Transformer une personne qui parle devant une caméra en un parcours visuel rythmé par les coupes, les changements de plans et les animations.</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ 00:04 — ÉTALONNAGE (avant / après photos) ============ -->
+  <section class="slide" id="etalonnage">
+    <p class="eyebrow"><span class="tc">00:04</span> — Étalonnage</p>
+    <h2 class="display-md">Avant / Après</h2>
+    <p class="lede small">Avant même d'écouter votre message, le spectateur a déjà jugé votre image.</p>
+    <p class="body-text">Une mauvaise couleur peut faire paraître un contenu improvisé. Un étalonnage cohérent donne immédiatement plus de contrôle à l'image : peau mieux équilibrée, lumière harmonisée, contraste maîtrisé et ambiance adaptée au sujet.</p>
+
+    <div class="compare-stack">
+      <div class="compare-pair">
+        <figure class="frame half">
+          <div class="frame-box">
+            <img class="frame-media" src="A.png" alt="Photo avant étalonnage — projet 01">
+          </div>
+          <figcaption><span class="cap-tag">Avant</span></figcaption>
+        </figure>
+        <figure class="frame half">
+          <div class="frame-box">
+            <img class="frame-media" src="A1.png" alt="Photo après étalonnage — projet 01">
+          </div>
+          <figcaption><span class="cap-tag accent">Après</span></figcaption>
+        </figure>
+      </div>
+
+      <div class="compare-pair">
+        <figure class="frame half">
+          <div class="frame-box">
+            <img class="frame-media" src="B.png" alt="Photo avant étalonnage — projet 02">
+          </div>
+          <figcaption><span class="cap-tag">Avant</span></figcaption>
+        </figure>
+        <figure class="frame half">
+          <div class="frame-box">
+            <img class="frame-media" src="B1.png" alt="Photo après étalonnage — projet 02">
+          </div>
+          <figcaption><span class="cap-tag accent">Après</span></figcaption>
+        </figure>
+      </div>
+
+      <div class="compare-pair">
+        <figure class="frame half">
+          <div class="frame-box">
+            <img class="frame-media" src="C.png" alt="Photo avant étalonnage — projet 03">
+          </div>
+          <figcaption><span class="cap-tag">Avant</span></figcaption>
+        </figure>
+        <figure class="frame half">
+          <div class="frame-box">
+            <img class="frame-media" src="C1.png" alt="Photo après étalonnage — projet 03">
+          </div>
+          <figcaption><span class="cap-tag accent">Après</span></figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <p class="section-note">Pas de filtre posé au hasard. Chaque correction cherche à rendre l'image plus propre, plus cohérente et plus crédible.</p>
+  </section>
+
+  <!-- ============ 00:05 — REELS (vidéos verticales) ============ -->
+  <section class="slide" id="reels">
+    <p class="eyebrow"><span class="tc">00:05</span> — Reels</p>
+    <h2 class="display-md">Sur mobile, personne ne vous doit son attention.</h2>
+    <p class="lede small">Un Reel dispose de quelques secondes pour donner une raison de rester.</p>
+    <p class="body-text">Si l'entrée est lente, l'idée est enterrée. Si le rythme est confus, le message se disperse. Si tout bouge, plus rien n'a d'importance. Je construis des formats courts qui avancent vite sans massacrer la compréhension.</p>
+
+    <div class="showcase-grid reels">
+      <figure class="frame">
+        <div class="frame-box portrait">
+          <iframe class="frame-media" src="https://www.youtube.com/embed/Lep8xCljkRA " title="Reel 01" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <figcaption>
+          <span class="cap-title">Reel 01 — Short pour VSL</span>
+          <span class="cap-note">Condenser une idée de vente en un format court, lisible et rythmé.</span>
+        </figcaption>
+      </figure>
+
+      <figure class="frame">
+        <div class="frame-box portrait">
+          <iframe class="frame-media" src="https://www.youtube.com/embed/v3bfkWPe_R4" title="Reel 02" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <figcaption>
+          <span class="cap-title">Reel 02 — Contenu dynamique</span>
+          <span class="cap-note">Maintenir l'énergie visuelle sans transformer la vidéo en fête foraine.</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ 00:06 — MOTION DESIGN (4 animations) ============ -->
+  <section class="slide" id="motion">
+    <p class="eyebrow"><span class="tc">00:06</span> — Motion design</p>
+    <h2 class="display-md">Une animation ne demande pas à être admirée.</h2>
+    <p class="lede small">Elle rend le message impossible à manquer.</p>
+    <p class="body-text">Le motion design n'est pas là pour décorer le vide. Il sert à révéler une idée, guider le regard, visualiser une explication ou donner une signature reconnaissable au contenu — de la comparaison avant/après à mes créations personnelles, en passant par l'animation et l'habillage graphique.</p>
+
+    <div class="showcase-grid two">
+      <figure class="frame">
+        <div class="frame-box">
+          <iframe class="frame-media" src="https://www.youtube.com/embed/D_6yiHyX_HY" title="Animation 01" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <figcaption>
+          <span class="cap-title">Comparaison avant/après</span>
+          <span class="cap-note">Avant</span>
+        </figcaption>
+      </figure>
+
+      <figure class="frame">
+        <div class="frame-box">
+          <iframe class="frame-media" src="https://www.youtube.com/embed/o3PRv8zk9QA" title="Animation 02" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <figcaption>
+          <span class="cap-title">Comparaison avant/après</span>
+          <span class="cap-note">Après</span>
+        </figcaption>
+      </figure>
+
+      <figure class="frame">
+        <div class="frame-box">
+          <iframe class="frame-media" src="https://www.youtube.com/embed/4AEQjhAfARE" title="Animation 03" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <figcaption>
+          <span class="cap-title">Création personnelle 01</span>
+        </figcaption>
+      </figure>
+
+      <figure class="frame">
+        <div class="frame-box">
+          <iframe class="frame-media" src="https://www.youtube.com/embed/_a1YExgGX3E" title="Animation 04" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <figcaption>
+          <span class="cap-title">Création personnelle 02</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ 00:07 — CONTACT / MERCI ============ -->
+  <section class="slide contact" id="contact">
+    <p class="eyebrow"><span class="tc">00:07</span> — Contact</p>
+    <h2 class="huge small-huge">Merci<span class="accent-dot">.</span></h2>
+    <p class="lede">Votre prochaine vidéo peut encore ressembler à des rushes assemblés. Ou montrer immédiatement que votre message mérite d'être écouté.</p>
+
+    <p class="body-text">Ce travail est adapté si vous produisez des vidéos facecam, des VSL et contenus de vente, des Reels et formats courts, des contenus éducatifs ou documentaires, ou toute vidéo nécessitant animations, étalonnage ou nettoyage audio.</p>
+    <p class="body-text">Envoyez-moi votre format, la durée prévue, votre échéance et une référence du style recherché. Je vous répondrai personnellement pour cadrer le projet.</p>
+
+    <div class="cover-ctas">
+      <a class="btn btn-primary" href="https://wa.me/22393029405">Discuter de ma prochaine vidéo</a>
+    </div>
+
+    <p class="status-badge"><span class="status-dot" aria-hidden="true"></span>Disponible pour de nouveaux projets</p>
+
+    <div class="contact-block">
+      <a class="contact-big" href="https://wa.me/22393029405">WhatsApp — +223 93 02 94 05</a>
+      <a class="contact-big" href="mailto:nfassousinayoko4@gmail.com">nfassousinayoko4@gmail.com</a>
+    </div>
+
+    <p class="footer-note">N'fassou Sinayoko — Monteur &amp; Motion Designer — Reel 2026</p>
+  </section>
+
+</main>
+
+<script>
+(function () {
+  var sections = Array.prototype.slice.call(document.querySelectorAll('main .slide'));
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.scrubber-list a'));
+  var playhead = document.getElementById('playhead');
+
+  function setActive(index) {
+    navLinks.forEach(function (link, i) {
+      link.classList.toggle('active', i === index);
+    });
+    if (playhead && navLinks.length > 1) {
+      var pct = (index / (navLinks.length - 1)) * 100;
+      playhead.style.top = pct + '%';
+    }
+  }
+
+  if ('IntersectionObserver' in window && sections.length) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var idx = sections.indexOf(entry.target);
+          if (idx > -1) setActive(idx);
+        }
+      });
+    }, { threshold: 0.55 });
+    sections.forEach(function (s) { observer.observe(s); });
+  }
+
+  navLinks.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      var target = document.querySelector(link.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
